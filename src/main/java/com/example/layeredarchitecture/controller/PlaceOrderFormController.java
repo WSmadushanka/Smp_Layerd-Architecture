@@ -367,6 +367,7 @@ public class PlaceOrderFormController {
             stm.setString(1, orderId);
             /*if order id already exist*/
             if (stm.executeQuery().next()) {
+                return false;
 
             }
 
