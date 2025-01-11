@@ -3,7 +3,6 @@ package com.example.layeredarchitecture.controller;
 import com.example.layeredarchitecture.dao.CustomerDAOImpl;
 import com.example.layeredarchitecture.dao.ItemDAOImpl;
 import com.example.layeredarchitecture.dao.OrderDAOImpl;
-import com.example.layeredarchitecture.dao.PlaceOrderDAOImpl;
 import com.example.layeredarchitecture.db.DBConnection;
 import com.example.layeredarchitecture.model.CustomerDTO;
 import com.example.layeredarchitecture.model.ItemDTO;
@@ -29,6 +28,7 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -199,8 +199,8 @@ public class PlaceOrderFormController {
 //        pstm.setString(1, code);
 //        return pstm.executeQuery().next();
 
-        PlaceOrderDAOImpl placeOrderDAO = new PlaceOrderDAOImpl();
-        return placeOrderDAO.existItem(code);
+        ItemDAOImpl itemDAO = new ItemDAOImpl();
+        return itemDAO.existItem(code);
     }
 
     //Fix less boilerplate code
@@ -210,8 +210,8 @@ public class PlaceOrderFormController {
 //        pstm.setString(1, id);
 //        return pstm.executeQuery().next();
 
-        PlaceOrderDAOImpl  placeOrderDAO = new PlaceOrderDAOImpl();
-        return placeOrderDAO.existCustomer(id);
+        CustomerDAOImpl  customerDAO = new CustomerDAOImpl();
+        return customerDAO.existCustomer(id);
     }
 
     //Fix less boilerplate code
@@ -245,8 +245,9 @@ public class PlaceOrderFormController {
 //            }
 
 
-            PlaceOrderDAOImpl placeOrderDAO = new PlaceOrderDAOImpl();
-            placeOrderDAO.loadAllCustomerIds(cmbCustomerId);
+            CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+//            customerDAO.loadAllCustomerIds(cmbCustomerId);
+            ArrayList<CustomerDTO> customerDTOS = customerDAO.getAllCustomers();
 
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "Failed to load customer ids").show();
@@ -262,10 +263,13 @@ public class PlaceOrderFormController {
 //            while (rst.next()) {
 //                cmbItemCode.getItems().add(rst.getString("code"));
 
-            PlaceOrderDAOImpl  placeOrderDAO = new PlaceOrderDAOImpl();
-            placeOrderDAO.loadAllItemCodes(cmbItemCode );
+            ItemDAOImpl  itemDAO = new ItemDAOImpl();
+//            itemDAO.loadAllItemCodes(cmbItemCode );
+            ArrayList<ItemDTO> allItems = itemDAO.loadAllItems();
 
-
+            for (ItemDTO itemDTO : allItems){
+                cmbItemCode.getItems().add(itemDTO.getCode());
+            }
 
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
