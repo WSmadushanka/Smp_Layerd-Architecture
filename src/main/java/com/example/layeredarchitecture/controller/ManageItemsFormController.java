@@ -1,5 +1,6 @@
 package com.example.layeredarchitecture.controller;
 
+import com.example.layeredarchitecture.dao.ItemDAO;
 import com.example.layeredarchitecture.dao.ItemDAOImpl;
 import com.example.layeredarchitecture.db.DBConnection;
 import com.example.layeredarchitecture.model.CustomerDTO;
@@ -79,7 +80,7 @@ public class ManageItemsFormController {
 //            while (rst.next()) {
 //                tblItems.getItems().add(new ItemTM(rst.getString("code"), rst.getString("description"), rst.getBigDecimal("unitPrice"), rst.getInt("qtyOnHand")));
 //            }
-            ItemDAOImpl itemDAO = new ItemDAOImpl();
+            ItemDAO itemDAO = new ItemDAOImpl();
             ArrayList<ItemDTO> itemDTOS = new ArrayList<>();
 
             for (ItemDTO itemDTO : itemDTOS) {
@@ -149,7 +150,7 @@ public class ManageItemsFormController {
 //            PreparedStatement pstm = connection.prepareStatement("DELETE FROM Item WHERE code=?");
 //            pstm.setString(1, code);
 //            pstm.executeUpdate();
-                ItemDAOImpl itemDAO = new ItemDAOImpl();
+                ItemDAO itemDAO = new ItemDAOImpl();
                 itemDAO.deleteItem(code);
 
 
@@ -198,7 +199,7 @@ public class ManageItemsFormController {
 //                pstm.setBigDecimal(3, unitPrice);
 //                pstm.setInt(4, qtyOnHand);
 //                pstm.executeUpdate();
-                ItemDAOImpl itemDAO = new ItemDAOImpl();
+                ItemDAO itemDAO = new ItemDAOImpl();
                 itemDAO.saveItem(code, description, unitPrice, qtyOnHand);
 
 
@@ -223,7 +224,7 @@ public class ManageItemsFormController {
 //                pstm.setInt(3, qtyOnHand);
 //                pstm.setString(4, code);
 //                pstm.executeUpdate();
-                ItemDAOImpl itemDAO = new ItemDAOImpl();
+                ItemDAO itemDAO = new ItemDAOImpl();
                 itemDAO.updateItem(new ItemDTO(code,description,unitPrice,qtyOnHand));
 
 
@@ -248,7 +249,7 @@ public class ManageItemsFormController {
 //        PreparedStatement pstm = connection.prepareStatement("SELECT code FROM Item WHERE code=?");
 //        pstm.setString(1, code);
 //        return pstm.executeQuery().next();
-        ItemDAOImpl itemDAO = new ItemDAOImpl();
+        ItemDAO itemDAO = new ItemDAOImpl();
         return itemDAO.existItem(code);
 
     }
@@ -265,7 +266,7 @@ public class ManageItemsFormController {
 //            } else {
 //                return "I00-001";
 //            }
-            ItemDAOImpl itemDAO = new ItemDAOImpl();
+            ItemDAO itemDAO = new ItemDAOImpl();
            String id = itemDAO.generateNewId();
            return id;
 

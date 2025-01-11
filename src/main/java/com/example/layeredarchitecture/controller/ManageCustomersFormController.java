@@ -1,6 +1,8 @@
 package com.example.layeredarchitecture.controller;
 
+import com.example.layeredarchitecture.dao.CustomerDAO;
 import com.example.layeredarchitecture.dao.CustomerDAOImpl;
+import com.example.layeredarchitecture.dao.SQLUtil;
 import com.example.layeredarchitecture.db.DBConnection;
 import com.example.layeredarchitecture.model.CustomerDTO;
 import com.example.layeredarchitecture.view.tdm.CustomerTM;
@@ -74,8 +76,8 @@ public class ManageCustomersFormController {
        while (rst.next()) {
            tblCustomers.getItems().add(new CustomerTM(rst.getString("id" )));
        }*/
-            CustomerDAOImpl customerDAOImple = new CustomerDAOImpl();
-            ArrayList<CustomerDTO> customerDTOS = customerDAOImple.getAllCustomers();
+            CustomerDAO customerDAO = new CustomerDAOImpl();
+            ArrayList<CustomerDTO> customerDTOS = customerDAO.getAllCustomers();
 
             for (CustomerDTO customerDTO : customerDTOS) {
                 tblCustomers.getItems().add(
@@ -159,7 +161,7 @@ public class ManageCustomersFormController {
 //                pstm.setString(2, name);
 //                pstm.setString(3, address);
 //                pstm.executeUpdate();
-                CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+                CustomerDAO customerDAO = new CustomerDAOImpl();
                 customerDAO.saveCustomer(id, name, address);
 
                 tblCustomers.getItems().add(new CustomerTM(id, name, address));
@@ -182,7 +184,7 @@ public class ManageCustomersFormController {
 //                pstm.setString(2, address);
 //                pstm.setString(3, id);
 //                pstm.executeUpdate();
-                CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+                CustomerDAO customerDAO = new CustomerDAOImpl();
                 customerDAO.updateCustomer(name, address, id);
 
             } catch (SQLException e) {
@@ -206,8 +208,8 @@ public class ManageCustomersFormController {
 //        PreparedStatement pstm = connection.prepareStatement("SELECT id FROM Customer WHERE id=?");
 //        pstm.setString(1, id);
 //        return pstm.executeQuery().next();
-        CustomerDAOImpl customerDAO = new CustomerDAOImpl();
-        return  customerDAO.exitCustomer(id);
+        CustomerDAO customerDAO = new CustomerDAOImpl();
+        return  customerDAO.existCustomer(id);
     }
 
     public void btnDelete_OnAction(ActionEvent actionEvent) {
@@ -222,7 +224,7 @@ public class ManageCustomersFormController {
 //            pstm.setString(1, id);
 //            pstm.executeUpdate();
 
-            CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+            CustomerDAO customerDAO = new CustomerDAOImpl();
             customerDAO.deleteCustomer(id);
 
             tblCustomers.getItems().remove(tblCustomers.getSelectionModel().getSelectedItem());
@@ -248,7 +250,7 @@ public class ManageCustomersFormController {
 //            } else {
 //                return "C00-001";
 //            }
-            CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+            CustomerDAO customerDAO = new CustomerDAOImpl();
            String id = customerDAO.generateNewId();
            return id;
 
